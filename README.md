@@ -1,4 +1,3 @@
-cat <<'EOF' > README.md
 # Apache Unomi Docker Starter
 
 A complete, ready-to-use Docker Compose setup for running Apache Unomi. This repository includes Unomi, Elasticsearch for data storage, and Kibana for data visualization.
