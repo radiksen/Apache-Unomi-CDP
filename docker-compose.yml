@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # 1. Elasticsearch Service
+  elasticsearch:
+    image: elasticsearch:7.17.15
+    container_name: unomi_elasticsearch
+    environment:
+      # Required for single-node setup
+      - discovery.type=single-node
+      # Set Java heap size
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    volumes:
+      # Persist Elasticsearch data
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      # Expose Elasticsearch port 9200 to the host (optional)
+      - "9200:9200"
+    networks:
+      - unomi_net
+
+  # 2. Apache Unomi Service
+  unomi:
+    image: apache/unomi:2.5.0
+    container_name: unomi_app
+    depends_on:
+      - elasticsearch
+    ports:
+      # Expose Unomi's default port 8181
+      - "8181:8181"
+    environment:
+      - UNOMI_ELASTICSEARCH_ADDRESSES=elasticsearch:9200
+      - UNOMI_KEYSTORE_PASSWORD=password
+      - UNOMI_TRUSTSTORE_PASSWORD=password
+    networks:
+      - unomi_net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8181/cxs/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # 3. Kibana Service (for viewing data)
+  kibana:
+    image: kibana:7.17.15
+    container_name: unomi_kibana
+    depends_on:
+      - elasticsearch
+    ports:
+      # Expose Kibana's web UI port 5601
+      - "5601:5601"
+    environment:
+      # Point Kibana to the Elasticsearch container
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    networks:
+      - unomi_net
+
+volumes:
+  es_data:
+
+networks:
+  unomi_net:
+    driver: bridge
