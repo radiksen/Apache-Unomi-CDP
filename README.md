@@ -1,5 +1,7 @@
 # Apache Unomi Docker Starter
-
+![Профили в Kibana](Screenshot%202025-06-20%20121344.png)
+![Интерфейс Unomi](Screenshot%202025-06-20%20121358.png)
+![Интерфейс Swagger UI](Screenshot%202025-06-20%20121415.png)
 A complete, ready-to-use Docker Compose setup for running Apache Unomi. This repository includes Unomi, Elasticsearch for data storage, and Kibana for data visualization.
 
 ## Included Services
