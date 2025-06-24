@@ -32,8 +32,8 @@ Once the containers are up and running, you can access the services at the follo
 -   **Kibana Web UI**: `http://localhost:5601`
 -   **Elasticsearch API**: `http://localhost:9200`
 -   Access Swagger REST API UI to browse and test the REST API
--   login:karaf
--   Pass:karaf
+        login:karaf
+        Pass:karaf
 
 ## How to Verify Unomi is Working
 
